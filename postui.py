@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 from dotenv import load_dotenv
 from crewai import Agent, Crew
@@ -5,6 +6,9 @@ from tasks import MarketingAnalysisTasks
 from agents import MarketingAnalysisAgents
 
 load_dotenv()
+
+os.environ["OPENAI_API_KEY"] = st.secrets["api_keys"]["SERPER_API_KEY"]
+
 
 # Initialize tasks and agents
 tasks = MarketingAnalysisTasks()

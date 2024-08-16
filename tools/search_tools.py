@@ -1,5 +1,6 @@
 import json
 import os
+import streamlit as st
 
 import requests
 
@@ -29,7 +30,7 @@ class SearchTools():
       print("XXXXXXXXXXXXXXXXXXX Internet search call with query: " + query + " XXXXXXXXXXXXXXXXXXXXX")
       
       # Ensure the API key is available
-      api_key = os.environ.get('SERPER_API_KEY')
+      api_key = st.secrets["api_keys"]["OPENAI_API_KEY"]
       print(f"Using API Key: {api_key}")
       if not api_key:
           raise ValueError("API key for Serper is not set in environment variables.")
