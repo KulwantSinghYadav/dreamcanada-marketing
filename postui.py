@@ -7,7 +7,7 @@ from agents import MarketingAnalysisAgents
 
 load_dotenv()
 
-os.environ["OPENAI_API_KEY"] = st.secrets["api_keys"]["SERPER_API_KEY"]
+os.environ["OPENAI_API_KEY"] = st.secrets["api_keys"]["OPENAI_API_KEY"]
 
 
 # Initialize tasks and agents
