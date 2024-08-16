@@ -9,7 +9,6 @@ load_dotenv()
 
 os.environ["OPENAI_API_KEY"] = st.secrets["api_keys"]["OPENAI_API_KEY"]
 
-
 # Initialize tasks and agents
 tasks = MarketingAnalysisTasks()
 agents = MarketingAnalysisAgents()
@@ -35,31 +34,29 @@ Lastly, for those who are new to Canada, the company's brokers offer assistance 
 def main():
     st.title("Marketing Analysis Tool")
 
-    # st.write("### Product Description")
-    # st.write(product_description)
-
     # User input for topic
     topic = st.text_input("Enter the topic:", "")
 
     if st.button("Generate Ad Copy"):
-        # Create Agents
-        creative_agent_from_article = agents.creative_content_creator_agent_from_article()
+        with st.spinner("Generating ad copy... Please wait..."):
+            # Create Agents
+            creative_agent_from_article = agents.creative_content_creator_agent_from_article()
 
-        # Create Tasks
-        write_copy_from_news = tasks.instagram_ad_copy_from_news(creative_agent_from_article, product_description, topic)
-        write_news_article_summary = tasks.find_news_articles_summary_for_topic_task(creative_agent_from_article, topic, product_description)
+            # Create Tasks
+            write_copy_from_news = tasks.instagram_ad_copy_from_news(creative_agent_from_article, product_description, topic)
+            write_news_article_summary = tasks.find_news_articles_summary_for_topic_task(creative_agent_from_article, topic, product_description)
 
-        # Create Crew responsible for Copy
-        copy_crew = Crew(
-            agents=[creative_agent_from_article],
-            tasks=[write_news_article_summary, write_copy_from_news],
-            verbose=True
-        )
+            # Create Crew responsible for Copy
+            copy_crew = Crew(
+                agents=[creative_agent_from_article],
+                tasks=[write_news_article_summary, write_copy_from_news],
+                verbose=True
+            )
 
-        # Get ad copy
-        ad_copy = copy_crew.kickoff()
+            # Get ad copy
+            ad_copy = copy_crew.kickoff()
 
-        # Display the ad copy
+        # Display the ad copy after the spinner ends
         st.write("### Generated Ad Copy:")
         st.write(ad_copy)
 
