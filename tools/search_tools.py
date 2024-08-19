@@ -10,22 +10,30 @@ from langchain.tools import tool
 
 class SearchTools():
 
-  @tool("Search internet")
+  @tool("Search news")
   def search_internet(query):
     """Useful to search the internet about a given topic and return relevant
     results."""
-    return SearchTools.search(query)
+    type="news"
+    return SearchTools.search(query, type)
 
   @tool("Search instagram")
   def search_instagram(query):
     """Useful to search for instagram post about a given topic and return relevant
     results."""
     query = f"site:instagram.com {query}"
-    return SearchTools.search(query)
+    type="organic"
+    return SearchTools.search(query, type)
+  
+  @tool("Search images")
+  def search_images(query):
+    """Useful to search for images on internet about a given topic and return relevant
+    results."""
+    return SearchTools.search(query, "images")
 
 
 
-  def search(query, n_results=5):
+  def search(query, type, n_results=5 ):
     try:
       print("XXXXXXXXXXXXXXXXXXX Internet search call with query: " + query + " XXXXXXXXXXXXXXXXXXXXX")
       
@@ -35,7 +43,7 @@ class SearchTools():
       if not api_key:
           raise ValueError("API key for Serper is not set in environment variables.")
       
-      url = "https://google.serper.dev/news"
+      url = f"https://google.serper.dev/{type}"
       payload = json.dumps({
          "q": query,
          "gl": "ca"
@@ -55,7 +63,7 @@ class SearchTools():
       
       # Parse the response
       response_data = response.json()
-      results = response_data.get('news', [])
+      results = response_data.get(type, [])
       
       print("XXXXXXXXXXXXXXXXXXX Internet search results: " + str(results) + " XXXXXXXXXXXXXXXXXXXXX")
       

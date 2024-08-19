@@ -41,11 +41,12 @@ def main():
         with st.spinner("Generating ad copy... Please wait..."):
             # Create Agents
             creative_agent_from_article = agents.creative_content_creator_agent_from_article()
+            senior_photographer = agents.senior_photographer_agent()
 
             # Create Tasks
             write_copy_from_news = tasks.instagram_ad_copy_from_news(creative_agent_from_article, product_description, topic)
             write_news_article_summary = tasks.find_news_articles_summary_for_topic_task(creative_agent_from_article, topic, product_description)
-
+            
             # Create Crew responsible for Copy
             copy_crew = Crew(
                 agents=[creative_agent_from_article],
@@ -57,8 +58,31 @@ def main():
             ad_copy = copy_crew.kickoff()
 
         # Display the ad copy after the spinner ends
-        st.write("### Generated Ad Copy:")
-        st.write(ad_copy)
+        # st.write("### Generated Ad Copy:")
+        # st.write(ad_copy)
+
+        # Create Crew responsible for Image
+        senior_photographer = agents.senior_photographer_agent()
+        chief_creative_diretor = agents.chief_creative_diretor_agent()
+        # Create Tasks for Image
+        take_photo = tasks.take_photograph_task(senior_photographer, ad_copy, topic, product_description)
+        approve_photo = tasks.review_photo(chief_creative_diretor, topic, product_description)
+
+        image_crew = Crew(
+            agents=[
+                senior_photographer
+            ],
+            tasks=[
+                take_photo
+            ],
+            verbose=True
+        )
+
+        images = image_crew.kickoff()
+        st.write("### Suggested images:")
+        st.write(images)
+
+
 
 if __name__ == "__main__":
     main()

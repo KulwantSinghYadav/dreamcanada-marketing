@@ -48,3 +48,40 @@ class MarketingAnalysisTasks:
 			"""),
 			agent=agent
 		)
+	
+
+	def take_photograph_task(self, agent, copy, product_summary, topic):
+		return Task(description=dedent(f"""\
+			You are working on an instagram post for a super important customer,
+			and you MUST take the most amazing photo ever for an instagram post
+			regarding the product, you have the following set 3 news items and 3 options of copy:
+			{copy}
+
+			This is the product you are working with: {product_summary}.
+			The topic provided by the customer: {topic}.
+
+			Search internet for the images on given topic, take each news item and each copy for the news item
+			And find three images for each ad copy.
+
+			Your final answer must be 3 options of photograph urls for each ad copy for each article.
+			  list the news item and ad copy along with three image urls.
+			"""),
+			agent=agent
+		)
+
+	def review_photo(self, agent, product_summary, topic):
+		return Task(description=dedent(f"""\
+			Review the photos you got from the senior photographer.
+			Make sure it's the best possible and aligned with the product's goals,
+			review, approve, ask clarifying question or delegate follow up work if
+			necessary to make decisions. When delegating work send the full draft
+			as part of the information.
+
+			This is the product you are working with: {product_summary}.
+			The topic provided by the customer: {topic}.
+
+			Your final answer must be 3 reviewed options of photographs,
+			each with url.
+			"""),
+			agent=agent
+		)
