@@ -58,8 +58,8 @@ def main():
             ad_copy = copy_crew.kickoff()
 
         # Display the ad copy after the spinner ends
-        # st.write("### Generated Ad Copy:")
-        # st.write(ad_copy)
+        st.write("### Generated Ad Copy:")
+        st.write(ad_copy)
 
         # Create Crew responsible for Image
         senior_photographer = agents.senior_photographer_agent()
